@@ -93,6 +93,12 @@ public class Main {
         }
         declareWinner(isXTurn, isActive);
     }
+
+    /**
+     * Check if there is a winner in the current state of the board
+     * @param board The Tic Tac Toe board
+     * @return true if the game can continue, false if there is a winner and the game needs to stop
+     */
     public static boolean checkStatus(char[] board){
         int rowSum = 0;
         int colSum = 0;
@@ -123,6 +129,12 @@ public class Main {
     public static void declareWinner(boolean isActive, boolean isX){
         System.out.println((isActive) ? "TIE"  : (isX) ? "Player X is the winner!" : "Player O is the winner!");
     }
+
+    /**
+     * The main function to prepare the game, let the player choose size and mode, run it,
+     * and then lets the player choose to player another game
+     * @param args I have no idea
+     */
     public static void main(String[] args) {
         String runningGame; // General String var to do all the input stuff in main function
         do { // do-while loop so that the game would run at least once
