@@ -91,7 +91,7 @@ public class Main {
             isActive = checkStatus(board);
             presentBoard(board);
         }
-        declareWinner(isXTurn, isActive);
+        declareWinner(isActive, isXTurn);
     }
 
     /**
