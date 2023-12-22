@@ -5,8 +5,6 @@ import java.util.HashSet;
 import javax.swing.*;
 
 public class Main {
-
-    static HashSet<String> validInputs; // Set of valid inputs from the players, depends on the board size
     static HashSet<Integer> winConditions; // Set of win conditions, depends on the board size
     static int boardWidth; // Board width
     static TicTacToe ticTacToe; // The GUI board
@@ -20,9 +18,6 @@ public class Main {
         ticTacToe.buttonPanel.removeAll(); // clear the board from previous game
         boardWidth = is4by4 ? 4 : 3;
         ticTacToe.createBoard(boardWidth);
-        // Initiate the valid inputs set here, with "0" to "(boardWidth-1)"
-        validInputs = new HashSet<>();
-        for (int i = 0; i < boardWidth; i++) validInputs.add(""+i);
         // Initiate the win conditions set here, using ASCII values * boardWidth
         winConditions = new HashSet<>(Arrays.asList('X' * boardWidth, 'O' * boardWidth));
         char[] board = new char[boardWidth * boardWidth];
@@ -149,7 +144,6 @@ public class Main {
                     // icon
                     choices, // Array of choices
                     choices[0]); // Initial choice
-            System.out.println(input);
             boolean playerXIsAI = (input.equals("AI vs player (AI first)") || input.equals("AI vs AI"));
             boolean playerOIsAI = (input.equals("Player vs AI (AI second)") || input.equals("AI vs AI"));
             runningGame(board, playerXIsAI, playerOIsAI);
