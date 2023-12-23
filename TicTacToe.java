@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
 import javax.swing.*;
 
 public class TicTacToe implements ActionListener {
@@ -11,7 +10,7 @@ public class TicTacToe implements ActionListener {
     JLabel textField = new JLabel();
     JButton[] buttons;
     boolean playerXTurn;
-    int indexChangedButton;
+    int chosenCell;
     private static final Object lock = new Object();
 
     public static void staticWait() {
@@ -52,6 +51,7 @@ public class TicTacToe implements ActionListener {
     }
 
     public void createBoard(int boardWidth){
+        buttonPanel.removeAll(); // Clear the board from previous game
         playerXTurn = false;
         buttons = new JButton[boardWidth * boardWidth];
         buttonPanel.setLayout(new GridLayout(boardWidth, boardWidth));
@@ -71,7 +71,7 @@ public class TicTacToe implements ActionListener {
             if ((e.getSource() == buttons[i]) && (buttons[i].getText().isEmpty())) {
                 buttons[i].setForeground(playerXTurn ? Color.RED : Color.BLUE);
                 buttons[i].setText(playerXTurn ? "X" : "O");
-                indexChangedButton = i;
+                chosenCell = i;
                 staticNotify();
             }
         }
