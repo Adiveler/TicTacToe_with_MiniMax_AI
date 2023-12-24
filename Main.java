@@ -84,6 +84,7 @@ public class Main {
     }
     /**
      * Check if there is a winner in the current state of the board
+     * if there is, paint the winning line in green
      * @param board The Tic Tac Toe board
      * @return true if the game can continue, false if there is a winner and the game needs to stop
      */
@@ -97,7 +98,14 @@ public class Main {
                 rowSum += board[(i*boardWidth) + (j/boardWidth)]; // Row check
                 colSum += board[i+j]; // Column check
             }
-            if (winConditions.contains(rowSum) || winConditions.contains(colSum)) {
+            if (winConditions.contains(rowSum)) {
+                for (int j = 0; j < boardWidth; j++)
+                    ticTacToe.buttons[(i*boardWidth) + j].setBackground(Color.GREEN);
+                return false;
+            }
+            if (winConditions.contains(colSum)){
+                for (int j = 0; j < board.length; j+=boardWidth)
+                    ticTacToe.buttons[i+j].setBackground(Color.GREEN);
                 return false;
             }
             rowSum = 0;
@@ -105,8 +113,17 @@ public class Main {
             leftToRightDiagonal += board[(i*boardWidth) + i];
             rightToLeftDiagonal += board[(i*boardWidth) + (boardWidth-1-i)];
         }
-        return (!winConditions.contains(leftToRightDiagonal)) &&
-                (!winConditions.contains(rightToLeftDiagonal));
+        if (winConditions.contains(leftToRightDiagonal)){
+            for (int i = 0; i < boardWidth; i++)
+                ticTacToe.buttons[(i*boardWidth) + i].setBackground(Color.GREEN);
+            return false;
+        }
+        if (winConditions.contains(rightToLeftDiagonal)){
+            for (int i = 0; i < boardWidth; i++)
+                ticTacToe.buttons[(i*boardWidth) + (boardWidth-1-i)].setBackground(Color.GREEN);
+            return false;
+        }
+        return true;
     }
 
     /**

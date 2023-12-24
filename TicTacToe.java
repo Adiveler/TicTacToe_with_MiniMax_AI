@@ -13,6 +13,9 @@ public class TicTacToe implements ActionListener {
     int chosenCell;
     private static final Object lock = new Object();
 
+    /**
+     * Serve as a wait function for human player to halt the code until player takes action
+     */
     public static void staticWait() {
         synchronized (lock) {
             try {
@@ -22,6 +25,10 @@ public class TicTacToe implements ActionListener {
             }
         }
     }
+
+    /**
+     * Notify the code when the player takes action to continue execution
+     */
     public static void staticNotify() {
         synchronized (lock) {
             lock.notify();
@@ -50,6 +57,10 @@ public class TicTacToe implements ActionListener {
         frame.add(buttonPanel);
     }
 
+    /**
+     * Create a new TicTacToe board GUI, cleans the previous one to prevent errors
+     * @param boardWidth the requested board's width
+     */
     public void createBoard(int boardWidth){
         buttonPanel.removeAll(); // Clear the board from previous game
         playerXTurn = false;
@@ -75,7 +86,5 @@ public class TicTacToe implements ActionListener {
                 staticNotify();
             }
         }
-
-
     }
 }
