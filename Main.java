@@ -158,7 +158,7 @@ public class Main {
             boolean playerXIsAI = (input.equals("AI vs player (AI first)") || input.equals("AI vs AI"));
             boolean playerOIsAI = (input.equals("Player vs AI (AI second)") || input.equals("AI vs AI"));
             runningGame(board, playerXIsAI, playerOIsAI);
-            response = JOptionPane.showConfirmDialog(null, "Do you want to continue?", "Rematch?",
+            response = JOptionPane.showConfirmDialog(null, "Do you want to play another game?", "Rematch?",
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             rematch = (response == JOptionPane.YES_OPTION);
         }
