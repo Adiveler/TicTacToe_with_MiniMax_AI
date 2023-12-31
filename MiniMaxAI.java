@@ -92,7 +92,7 @@ public class MiniMaxAI {
                     int moveValue = miniMax(board, MAX_DEPTH, Integer.MIN_VALUE,
                             Integer.MAX_VALUE, false);
                     board[(row*boardWidth)+col] = '_';
-                    if (moveValue > bestValue) {
+                    if ((moveValue > bestValue) || ((moveValue == bestValue) && (Math.random() >= 0.5))) {
                         bestMove[0] = row;
                         bestMove[1] = col;
                         bestValue = moveValue;
@@ -115,7 +115,7 @@ public class MiniMaxAI {
                     int moveValue = miniMax(board, MAX_DEPTH, Integer.MIN_VALUE,
                             Integer.MAX_VALUE, true);
                     board[(row*boardWidth)+col] = '_';
-                    if (moveValue < bestValue) {
+                    if ((moveValue < bestValue) || ((moveValue == bestValue) && (Math.random() >= 0.5))) {
                         bestMove[0] = row;
                         bestMove[1] = col;
                         bestValue = moveValue;
