@@ -4,4 +4,4 @@ TicTacToe game with GUI for 3x3 or 4x4 board, and with MiniMax AI rival
 ![Part 3](https://github.com/Adiveler/TicTacToe_with_MiniMax_AI/assets/58662472/7291105c-c258-4904-9bb8-96a3b7c03726)
 
 What is MiniMax AI, you ask? Well, here is a video that explain it very well:
-https://youtu.be/SLgZhpDsrfc?si=o3fsajBOlrWza9dC
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/SLgZhpDsrfc/0.jpg)](https://www.youtube.com/watch?v=SLgZhpDsrfc)
