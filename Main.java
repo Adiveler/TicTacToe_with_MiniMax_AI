@@ -1,11 +1,10 @@
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.util.Arrays;
-import java.util.HashSet;
 import javax.swing.*;
 
 public class Main {
-    static HashSet<Integer> winConditions; // Set of win conditions, depends on the board size
+    static int[] winConditions = new int[2]; // Set of win conditions, depends on the board size
     static int boardWidth; // Board width
     static TicTacToe ticTacToe; // The GUI board
 
@@ -18,7 +17,8 @@ public class Main {
         boardWidth = is4by4 ? 4 : 3;
         ticTacToe.createBoard(boardWidth);
         // Initiate the win conditions set here, using ASCII values * boardWidth
-        winConditions = new HashSet<>(Arrays.asList('X' * boardWidth, 'O' * boardWidth));
+        winConditions[0] = ('X' * boardWidth);
+        winConditions[1] = ('O' * boardWidth);
         char[] board = new char[boardWidth * boardWidth];
         Arrays.fill(board, '_');
         return board;
@@ -98,12 +98,12 @@ public class Main {
                 rowSum += board[(i*boardWidth) + (j/boardWidth)]; // Row check
                 colSum += board[i+j]; // Column check
             }
-            if (winConditions.contains(rowSum)) {
+            if ((winConditions[0] == rowSum) || (winConditions[1] == rowSum)) {
                 for (int j = 0; j < boardWidth; j++)
                     ticTacToe.buttons[(i*boardWidth) + j].setBackground(Color.GREEN);
                 return false;
             }
-            if (winConditions.contains(colSum)){
+            if ((winConditions[0] == colSum) || (winConditions[1] == colSum)){
                 for (int j = 0; j < board.length; j+=boardWidth)
                     ticTacToe.buttons[i+j].setBackground(Color.GREEN);
                 return false;
@@ -113,12 +113,12 @@ public class Main {
             leftToRightDiagonal += board[(i*boardWidth) + i];
             rightToLeftDiagonal += board[(i*boardWidth) + (boardWidth-1-i)];
         }
-        if (winConditions.contains(leftToRightDiagonal)){
+        if ((winConditions[0] == leftToRightDiagonal) || (winConditions[1] == leftToRightDiagonal)){
             for (int i = 0; i < boardWidth; i++)
                 ticTacToe.buttons[(i*boardWidth) + i].setBackground(Color.GREEN);
             return false;
         }
-        if (winConditions.contains(rightToLeftDiagonal)){
+        if ((winConditions[0] == rightToLeftDiagonal) || (winConditions[1] == rightToLeftDiagonal)){
             for (int i = 0; i < boardWidth; i++)
                 ticTacToe.buttons[(i*boardWidth) + (boardWidth-1-i)].setBackground(Color.GREEN);
             return false;
