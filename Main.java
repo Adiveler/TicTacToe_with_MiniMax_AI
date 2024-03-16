@@ -43,11 +43,10 @@ public class Main {
                 } catch (InterruptedException e){
                     throw new RuntimeException(e);
                 }
-                int[] aiBestMove = MiniMaxAI.getBestMoveForX(board);
-                int aiBestMoveIndex = (aiBestMove[0] * boardWidth) + aiBestMove[1];
-                board[aiBestMoveIndex] = 'X';
-                ticTacToe.buttons[aiBestMoveIndex].setText("X");
-                ticTacToe.buttons[aiBestMoveIndex].setForeground(Color.RED);
+                int aiBestMove = MiniMaxAI.getBestMoveForX(board);
+                board[aiBestMove] = 'X';
+                ticTacToe.buttons[aiBestMove].setText("X");
+                ticTacToe.buttons[aiBestMove].setForeground(Color.RED);
                 preventPlayerInteraction(playerOIsAI, true);
             } else if ((!ticTacToe.playerXTurn) && playerOIsAI) {
                 preventPlayerInteraction(playerXIsAI, false);
@@ -56,11 +55,10 @@ public class Main {
                 } catch (InterruptedException e){
                     throw new RuntimeException(e);
                 }
-                int[] aiBestMove = MiniMaxAI.getBestMoveForO(board);
-                int aiBestMoveIndex = (aiBestMove[0] * boardWidth) + aiBestMove[1];
-                board[aiBestMoveIndex] = 'O';
-                ticTacToe.buttons[aiBestMoveIndex].setText("O");
-                ticTacToe.buttons[aiBestMoveIndex].setForeground(Color.BLUE);
+                int aiBestMove = MiniMaxAI.getBestMoveForO(board);
+                board[aiBestMove] = 'O';
+                ticTacToe.buttons[aiBestMove].setText("O");
+                ticTacToe.buttons[aiBestMove].setForeground(Color.BLUE);
                 preventPlayerInteraction(playerXIsAI, true);
             } else {
                 TicTacToe.staticWait(); // Wait for human player input

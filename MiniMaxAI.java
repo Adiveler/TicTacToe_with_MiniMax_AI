@@ -78,11 +78,11 @@ public class MiniMaxAI {
     /**
      * Evaluate every legal move on the board and return the best one.
      * @param board Board to evaluate
-     * @return Coordinates of best move
+     * @return Index of best move
      */
-    public static int[] getBestMoveForX(char[] board) {
+    public static int getBestMoveForX(char[] board) {
         int boardWidth = (int) Math.sqrt(board.length);
-        int[] bestMove = new int[]{-1, -1};
+        int bestMove = -1;
         int bestValue = Integer.MIN_VALUE;
 
         for (int row = 0; row < boardWidth; row++) {
@@ -93,8 +93,7 @@ public class MiniMaxAI {
                             Integer.MAX_VALUE, false);
                     board[(row*boardWidth)+col] = '_';
                     if ((moveValue > bestValue) || ((moveValue == bestValue) && (Math.random() >= 0.5))) {
-                        bestMove[0] = row;
-                        bestMove[1] = col;
+                        bestMove = (row*boardWidth)+col;
                         bestValue = moveValue;
                     }
                 }
@@ -103,9 +102,9 @@ public class MiniMaxAI {
         return bestMove;
     }
 
-    public static int[] getBestMoveForO(char[] board) {
+    public static int getBestMoveForO(char[] board) {
         int boardWidth = (int) Math.sqrt(board.length);
-        int[] bestMove = new int[]{-1, -1};
+        int bestMove = -1;
         int bestValue = Integer.MAX_VALUE;
 
         for (int row = 0; row < boardWidth; row++) {
@@ -116,8 +115,7 @@ public class MiniMaxAI {
                             Integer.MAX_VALUE, true);
                     board[(row*boardWidth)+col] = '_';
                     if ((moveValue < bestValue) || ((moveValue == bestValue) && (Math.random() >= 0.5))) {
-                        bestMove[0] = row;
-                        bestMove[1] = col;
+                        bestMove = (row*boardWidth)+col;
                         bestValue = moveValue;
                     }
                 }
