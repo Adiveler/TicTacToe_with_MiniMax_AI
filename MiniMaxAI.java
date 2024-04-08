@@ -21,7 +21,6 @@ public class MiniMaxAI {
      */
     public static int miniMax(char[] board, int depth, int alpha, int beta, boolean isMax) {
         int boardVal = evaluateBoard(board, depth);
-        int boardWidth = (int) Math.sqrt(board.length);
 
         // Terminal node (win/lose/draw) or max depth reached.
         boolean anyMovesAvailable = false;
@@ -39,36 +38,30 @@ public class MiniMaxAI {
         // Maximising player, find the maximum attainable value.
         if (isMax) {
             int highestVal = Integer.MIN_VALUE;
-            for (int row = 0; row < boardWidth; row++) {
-                for (int col = 0; col < boardWidth; col++) {
-                    if (board[(row*boardWidth)+col] == '_') {
-                        board[(row*boardWidth)+col] = 'X';
-                        highestVal = Math.max(highestVal, miniMax(board,
-                                depth - 1, alpha, beta, false));
-                        board[(row*boardWidth)+col] = '_';
-                        alpha = Math.max(alpha, highestVal);
-                        if (alpha >= beta) {
-                            return highestVal;
-                        }
-                    }
+            for (int i = 0; i < board.length; i++) {
+                if (board[i] != '_') continue;
+                board[i] = 'X';
+                highestVal = Math.max(highestVal, miniMax(board,
+                        depth - 1, alpha, beta, false));
+                board[i] = '_';
+                alpha = Math.max(alpha, highestVal);
+                if (alpha >= beta) {
+                    return highestVal;
                 }
             }
             return highestVal;
             // Minimising player, find the minimum attainable value;
         } else {
             int lowestVal = Integer.MAX_VALUE;
-            for (int row = 0; row < boardWidth; row++) {
-                for (int col = 0; col < boardWidth; col++) {
-                    if (board[(row*boardWidth)+col] == '_') {
-                        board[(row*boardWidth)+col] = 'O';
-                        lowestVal = Math.min(lowestVal, miniMax(board,
-                                depth - 1, alpha, beta, true));
-                        board[(row*boardWidth)+col] = '_';
-                        beta = Math.min(beta, lowestVal);
-                        if (beta <= alpha) {
-                            return lowestVal;
-                        }
-                    }
+            for (int i = 0; i < board.length; i++) {
+                if (board[i] != '_') continue;
+                board[i] = 'O';
+                lowestVal = Math.min(lowestVal, miniMax(board,
+                        depth - 1, alpha, beta, true));
+                board[i] = '_';
+                beta = Math.min(beta, lowestVal);
+                if (beta <= alpha) {
+                    return lowestVal;
                 }
             }
             return lowestVal;
@@ -81,44 +74,36 @@ public class MiniMaxAI {
      * @return Index of best move
      */
     public static int getBestMoveForX(char[] board) {
-        int boardWidth = (int) Math.sqrt(board.length);
         int bestMove = -1;
         int bestValue = Integer.MIN_VALUE;
 
-        for (int row = 0; row < boardWidth; row++) {
-            for (int col = 0; col < boardWidth; col++) {
-                if (board[(row*boardWidth)+col] == '_') {
-                    board[(row*boardWidth)+col] = 'X';
-                    int moveValue = miniMax(board, MAX_DEPTH, Integer.MIN_VALUE,
-                            Integer.MAX_VALUE, false);
-                    board[(row*boardWidth)+col] = '_';
-                    if ((moveValue > bestValue) || ((moveValue == bestValue) && (Math.random() >= 0.5))) {
-                        bestMove = (row*boardWidth)+col;
-                        bestValue = moveValue;
-                    }
-                }
+        for (int i = 0; i < board.length; i++) {
+            if (board[i] != '_') continue;
+            board[i] = 'X';
+            int moveValue = miniMax(board, MAX_DEPTH, Integer.MIN_VALUE,
+                    Integer.MAX_VALUE, false);
+            board[i] = '_';
+            if ((moveValue > bestValue) || ((moveValue == bestValue) && (Math.random() >= 0.5))) {
+                bestMove = i;
+                bestValue = moveValue;
             }
         }
         return bestMove;
     }
 
     public static int getBestMoveForO(char[] board) {
-        int boardWidth = (int) Math.sqrt(board.length);
         int bestMove = -1;
         int bestValue = Integer.MAX_VALUE;
 
-        for (int row = 0; row < boardWidth; row++) {
-            for (int col = 0; col < boardWidth; col++) {
-                if (board[(row*boardWidth)+col] == '_') {
-                    board[(row*boardWidth)+col] = 'O';
-                    int moveValue = miniMax(board, MAX_DEPTH, Integer.MIN_VALUE,
-                            Integer.MAX_VALUE, true);
-                    board[(row*boardWidth)+col] = '_';
-                    if ((moveValue < bestValue) || ((moveValue == bestValue) && (Math.random() >= 0.5))) {
-                        bestMove = (row*boardWidth)+col;
-                        bestValue = moveValue;
-                    }
-                }
+        for (int i = 0; i < board.length; i++) {
+            if (board[i] != '_') continue;
+            board[i] = 'O';
+            int moveValue = miniMax(board, MAX_DEPTH, Integer.MIN_VALUE,
+                    Integer.MAX_VALUE, true);
+            board[i] = '_';
+            if ((moveValue < bestValue) || ((moveValue == bestValue) && (Math.random() >= 0.5))) {
+                bestMove = i;
+                bestValue = moveValue;
             }
         }
         return bestMove;
