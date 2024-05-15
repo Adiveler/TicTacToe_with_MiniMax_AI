@@ -111,7 +111,7 @@ public class MiniMaxAI {
 
     /**
      * Evaluate the given board from the perspective of each player, return
-     * 10 if a winning board configuration is found for, -10 for O, and 0
+     * 10 if a winning board configuration is found for X, -10 for O, and 0
      * for a draw, weight the value of a win/loss/draw according to how many
      * moves it would take to realise it using the depth of the game tree the
      * board configuration is at.
