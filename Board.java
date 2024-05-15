@@ -76,12 +76,16 @@ public class Board implements ActionListener {
         }
     }
 
+    public void setChosenCell(JButton cell){
+        cell.setText(playerXTurn ? "X" : "O");
+        cell.setForeground(playerXTurn ? Color.RED : Color.BLUE);
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         for (int i = 0; i < buttons.length; i++) {
             if ((e.getSource() == buttons[i]) && (buttons[i].getText().isEmpty())) {
-                buttons[i].setForeground(playerXTurn ? Color.RED : Color.BLUE);
-                buttons[i].setText(playerXTurn ? "X" : "O");
+                setChosenCell(buttons[i]);
                 chosenCell = i;
                 continueCodeExecution();
             }
