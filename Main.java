@@ -143,7 +143,7 @@ public class Main {
         ticTacToeBoard = new Board();
         boolean rematch = true; // boolean for playing another game
         while (rematch) {
-            Object[] boardSizes = { "3x3", "4x4" };
+            Object[] boardSizes = { "3x3", "4x4" }; // This can be extended to even bigger boards (5x5, 6x6, etc...)
             int response = JOptionPane.showOptionDialog(null, "Choose board size", "Select an Option",
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, boardSizes,
                     boardSizes[0]);
