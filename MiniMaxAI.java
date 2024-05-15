@@ -73,7 +73,7 @@ public class MiniMaxAI {
      * @param board Board to evaluate
      * @return Index of best move
      */
-    public static int getBestMoveForX(char[] board) {
+    public static int getXMove(char[] board) {
         int bestMove = -1;
         int bestValue = Integer.MIN_VALUE;
 
@@ -91,7 +91,7 @@ public class MiniMaxAI {
         return bestMove;
     }
 
-    public static int getBestMoveForO(char[] board) {
+    public static int getOMove(char[] board) {
         int bestMove = -1;
         int bestValue = Integer.MAX_VALUE;
 

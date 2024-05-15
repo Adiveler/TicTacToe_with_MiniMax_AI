@@ -6,16 +6,16 @@ import javax.swing.*;
 public class Main {
     static int[] winConditions = new int[2]; // Set of win conditions, depends on the board size
     static int boardWidth; // Board width
-    static TicTacToe ticTacToe; // The GUI board
+    static Board ticTacToeBoard; // The GUI board
 
     /**
      * Generate a new Tic Tac Toe board
-     * @param is4by4 Check if requested a 4x4 board
+     * @param boardSize Check the requested board size
      * @return Return a GUI board and a '_' filled board (for AI player) in size of either 3x3 or 4x4
      */
-    public static char[] createNewGame(boolean is4by4){
-        boardWidth = is4by4 ? 4 : 3;
-        ticTacToe.createBoard(boardWidth);
+    public static char[] createNewGame(int boardSize){
+        boardWidth = boardSize + 3;
+        ticTacToeBoard.createBoard(boardWidth);
         // Initiate the win conditions set here, using ASCII values * boardWidth
         winConditions[0] = ('X' * boardWidth);
         winConditions[1] = ('O' * boardWidth);
@@ -33,36 +33,36 @@ public class Main {
     public static void runningGame(char[] board, boolean playerXIsAI, boolean playerOIsAI){
         boolean isActive = true; // if this is still true at the end of the game, we have a tie
         for (int i = 0; i < board.length && isActive; i++){
-            ticTacToe.playerXTurn = !ticTacToe.playerXTurn; // Since this boolean is important to determine the winner,
+            ticTacToeBoard.playerXTurn = !ticTacToeBoard.playerXTurn; // Since this boolean is important to determine the winner,
             // I've decided to toggle the player's turn at the start of the loop
-            ticTacToe.textField.setText(ticTacToe.playerXTurn ? "X turn" : "O turn");
-            if (ticTacToe.playerXTurn && playerXIsAI) {
+            ticTacToeBoard.textField.setText(ticTacToeBoard.playerXTurn ? "X turn" : "O turn");
+            if (ticTacToeBoard.playerXTurn && playerXIsAI) {
                 preventPlayerInteraction(playerOIsAI, false); // prevent human player from causing bugs
                 try { // Decided to add a delay, so it would be easier to follow (on 3x3 board, or on slightly filled 4x4 one)
                     Thread.sleep(1000);
                 } catch (InterruptedException e){
                     throw new RuntimeException(e);
                 }
-                int aiBestMove = MiniMaxAI.getBestMoveForX(board);
+                int aiBestMove = MiniMaxAI.getXMove(board);
                 board[aiBestMove] = 'X';
-                ticTacToe.buttons[aiBestMove].setText("X");
-                ticTacToe.buttons[aiBestMove].setForeground(Color.RED);
+                ticTacToeBoard.buttons[aiBestMove].setText("X");
+                ticTacToeBoard.buttons[aiBestMove].setForeground(Color.RED);
                 preventPlayerInteraction(playerOIsAI, true);
-            } else if ((!ticTacToe.playerXTurn) && playerOIsAI) {
+            } else if ((!ticTacToeBoard.playerXTurn) && playerOIsAI) {
                 preventPlayerInteraction(playerXIsAI, false);
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e){
                     throw new RuntimeException(e);
                 }
-                int aiBestMove = MiniMaxAI.getBestMoveForO(board);
+                int aiBestMove = MiniMaxAI.getOMove(board);
                 board[aiBestMove] = 'O';
-                ticTacToe.buttons[aiBestMove].setText("O");
-                ticTacToe.buttons[aiBestMove].setForeground(Color.BLUE);
+                ticTacToeBoard.buttons[aiBestMove].setText("O");
+                ticTacToeBoard.buttons[aiBestMove].setForeground(Color.BLUE);
                 preventPlayerInteraction(playerXIsAI, true);
             } else {
-                TicTacToe.staticWait(); // Wait for human player input
-                board[ticTacToe.chosenCell] = (ticTacToe.playerXTurn) ? 'X' : 'O';
+                Board.waitForPlayerInput(); // Wait for human player input
+                board[ticTacToeBoard.chosenCell] = (ticTacToeBoard.playerXTurn) ? 'X' : 'O';
             }
             isActive = checkStatus(board);
         }
@@ -76,8 +76,8 @@ public class Main {
      */
     public static void preventPlayerInteraction(boolean aiRival,boolean isHumanTurn){
         if (aiRival) return;
-        for (int j = 0; j < ticTacToe.buttons.length; j++) {
-            ticTacToe.buttons[j].setEnabled(isHumanTurn);
+        for (int j = 0; j < ticTacToeBoard.buttons.length; j++) {
+            ticTacToeBoard.buttons[j].setEnabled(isHumanTurn);
         }
     }
     /**
@@ -98,12 +98,12 @@ public class Main {
             }
             if ((winConditions[0] == rowSum) || (winConditions[1] == rowSum)) {
                 for (int j = 0; j < boardWidth; j++)
-                    ticTacToe.buttons[(i*boardWidth) + j].setBackground(Color.GREEN);
+                    ticTacToeBoard.buttons[(i*boardWidth) + j].setBackground(Color.GREEN);
                 return false;
             }
             if ((winConditions[0] == colSum) || (winConditions[1] == colSum)){
                 for (int j = 0; j < board.length; j+=boardWidth)
-                    ticTacToe.buttons[i+j].setBackground(Color.GREEN);
+                    ticTacToeBoard.buttons[i+j].setBackground(Color.GREEN);
                 return false;
             }
             rowSum = 0;
@@ -113,12 +113,12 @@ public class Main {
         }
         if ((winConditions[0] == leftToRightDiagonal) || (winConditions[1] == leftToRightDiagonal)){
             for (int i = 0; i < boardWidth; i++)
-                ticTacToe.buttons[(i*boardWidth) + i].setBackground(Color.GREEN);
+                ticTacToeBoard.buttons[(i*boardWidth) + i].setBackground(Color.GREEN);
             return false;
         }
         if ((winConditions[0] == rightToLeftDiagonal) || (winConditions[1] == rightToLeftDiagonal)){
             for (int i = 0; i < boardWidth; i++)
-                ticTacToe.buttons[(i*boardWidth) + (boardWidth-1-i)].setBackground(Color.GREEN);
+                ticTacToeBoard.buttons[(i*boardWidth) + (boardWidth-1-i)].setBackground(Color.GREEN);
             return false;
         }
         return true;
@@ -129,7 +129,7 @@ public class Main {
      * @param isActive If this var is still true when the game is finished, the board got filled and we have a tie
      */
     public static void declareWinner(boolean isActive){
-        ticTacToe.textField.setText((isActive) ? "TIE"  : (ticTacToe.playerXTurn) ? "Player X is the winner!" : "Player O is the winner!");
+        ticTacToeBoard.textField.setText((isActive) ? "TIE"  : (ticTacToeBoard.playerXTurn) ? "Player X is the winner!" : "Player O is the winner!");
         preventPlayerInteraction(false,false);
     }
 
@@ -139,20 +139,21 @@ public class Main {
      * @param args I have no idea what is this one's purpose
      */
     public static void main(String[] args) {
-        ticTacToe = new TicTacToe();
+        ticTacToeBoard = new Board();
         boolean rematch = true; // boolean for playing another game
         while (rematch) {
             Object[] boardSizes = { "3x3", "4x4" };
             int response = JOptionPane.showOptionDialog(null, "Choose board size", "Select an Option",
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, boardSizes,
                     boardSizes[0]);
-            boolean is4x4 = (response == JOptionPane.NO_OPTION);
-            char[] board = createNewGame(is4x4);
+            if (response == JOptionPane.CLOSED_OPTION) break;
+            char[] board = createNewGame(response);
             String[] choices = {"Player vs Player", "AI vs player (AI first)", "Player vs AI (AI second)", "AI vs AI"};
             String input = (String) JOptionPane.showInputDialog(null, "Choose players",
                     "The Choice of a Lifetime", JOptionPane.QUESTION_MESSAGE, null,
                     choices, // Array of choices
                     choices[0]); // Initial choice
+            if (input == null) break; // If choose close option
             boolean playerXIsAI = (input.equals("AI vs player (AI first)") || input.equals("AI vs AI"));
             boolean playerOIsAI = (input.equals("Player vs AI (AI second)") || input.equals("AI vs AI"));
             runningGame(board, playerXIsAI, playerOIsAI);
@@ -161,6 +162,6 @@ public class Main {
             rematch = (response == JOptionPane.YES_OPTION);
         }
         // Close the game's window and exit the program
-        ticTacToe.frame.dispatchEvent(new WindowEvent(ticTacToe.frame, WindowEvent.WINDOW_CLOSING));
+        ticTacToeBoard.frame.dispatchEvent(new WindowEvent(ticTacToeBoard.frame, WindowEvent.WINDOW_CLOSING));
     }
 }
