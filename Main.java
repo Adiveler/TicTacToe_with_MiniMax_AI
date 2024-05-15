@@ -64,7 +64,7 @@ public class Main {
         int aiBestMove = (ticTacToeBoard.playerXTurn) ? MiniMaxAI.getXMove(board) : MiniMaxAI.getOMove(board);
         char currentPlayer = (ticTacToeBoard.playerXTurn) ? 'X' : 'O';
         board[aiBestMove] = currentPlayer;
-        ticTacToeBoard.setChosenCell(ticTacToeBoard.buttons[aiBestMove]);
+        ticTacToeBoard.setChosenCell(aiBestMove);
         preventPlayerInteraction(otherPlayerIsAI, true);
     }
 
