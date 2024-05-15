@@ -76,6 +76,10 @@ public class Board implements ActionListener {
         }
     }
 
+    /**
+     * Set the chosen cell to present X/O with the adjusted color
+     * @param cell The cell on the board that the player choose
+     */
     public void setChosenCell(JButton cell){
         cell.setText(playerXTurn ? "X" : "O");
         cell.setForeground(playerXTurn ? Color.RED : Color.BLUE);
