@@ -37,29 +37,9 @@ public class Main {
             // I've decided to toggle the player's turn at the start of the loop
             ticTacToeBoard.textField.setText(ticTacToeBoard.playerXTurn ? "X turn" : "O turn");
             if (ticTacToeBoard.playerXTurn && playerXIsAI) {
-                preventPlayerInteraction(playerOIsAI, false); // prevent human player from causing bugs
-                try { // Decided to add a delay, so it would be easier to follow (on 3x3 board, or on slightly filled 4x4 one)
-                    Thread.sleep(1000);
-                } catch (InterruptedException e){
-                    throw new RuntimeException(e);
-                }
-                int aiBestMove = MiniMaxAI.getXMove(board);
-                board[aiBestMove] = 'X';
-                ticTacToeBoard.buttons[aiBestMove].setText("X");
-                ticTacToeBoard.buttons[aiBestMove].setForeground(Color.RED);
-                preventPlayerInteraction(playerOIsAI, true);
+                aiMove(board, true, playerOIsAI);
             } else if ((!ticTacToeBoard.playerXTurn) && playerOIsAI) {
-                preventPlayerInteraction(playerXIsAI, false);
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e){
-                    throw new RuntimeException(e);
-                }
-                int aiBestMove = MiniMaxAI.getOMove(board);
-                board[aiBestMove] = 'O';
-                ticTacToeBoard.buttons[aiBestMove].setText("O");
-                ticTacToeBoard.buttons[aiBestMove].setForeground(Color.BLUE);
-                preventPlayerInteraction(playerXIsAI, true);
+                aiMove(board, false, playerXIsAI);
             } else {
                 Board.waitForPlayerInput(); // Wait for human player input
                 board[ticTacToeBoard.chosenCell] = (ticTacToeBoard.playerXTurn) ? 'X' : 'O';
@@ -67,6 +47,27 @@ public class Main {
             isActive = checkStatus(board);
         }
         declareWinner(isActive);
+    }
+
+    /**
+     * Function that manage the AI turn, whenever it's X or O (to prevent DRY)
+     * @param board Array of chars that flatly represent game's board in more primitive way
+     * @param currentAITurnIsX Check if the current AI player is X
+     * @param otherPlayerIsAI Check if the other player is AI
+     */
+    public static void aiMove(char[] board, boolean currentAITurnIsX, boolean otherPlayerIsAI){
+        preventPlayerInteraction(otherPlayerIsAI, false); // prevent human player from causing bugs
+        try { // Decided to add a delay, so it would be easier to follow (on 3x3 board, or on slightly filled 4x4 one)
+            Thread.sleep(1000);
+        } catch (InterruptedException e){
+            throw new RuntimeException(e);
+        }
+        int aiBestMove = (currentAITurnIsX) ? MiniMaxAI.getXMove(board) : MiniMaxAI.getOMove(board);
+        char currentPlayer = (currentAITurnIsX) ? 'X' : 'O';
+        board[aiBestMove] = currentPlayer;
+        ticTacToeBoard.buttons[aiBestMove].setText(String.valueOf(currentPlayer));
+        ticTacToeBoard.buttons[aiBestMove].setForeground((currentAITurnIsX) ? Color.RED : Color.BLUE);
+        preventPlayerInteraction(otherPlayerIsAI, true);
     }
 
     /**
