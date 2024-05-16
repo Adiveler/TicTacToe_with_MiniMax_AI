@@ -124,9 +124,9 @@ public class MiniMaxAI {
         int colSum = 0; // Check columns for winner
         int tlbrDigSum = 0; // Check top-left to bottom-right diagonal for winner
         int trblDigSum = 0; // Check top-right to bottom-left diagonal for winner
-        int bWidth = (int) Math.sqrt(board.length);
-        int Xwin = 'X' * bWidth;
-        int Owin = 'O' * bWidth;
+        int bWidth = Main.boardWidth;
+        int Xwin = Main.winConditions[0];
+        int Owin = Main.winConditions[1];
         for (int row = 0; row < bWidth; row++) {
             for (int col = 0; col < bWidth; col++) {
                 rowSum += board[(row*bWidth) + col];

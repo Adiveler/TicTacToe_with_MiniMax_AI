@@ -33,8 +33,8 @@ public class Main {
     public static void runningGame(char[] board, boolean playerXIsAI, boolean playerOIsAI){
         boolean isActive = true; // if this is still true at the end of the game, we have a tie
         for (int i = 0; i < board.length && isActive; i++){
-            ticTacToeBoard.playerXTurn = !ticTacToeBoard.playerXTurn; // Since this boolean is important to determine the winner,
-            // I've decided to toggle the player's turn at the start of the loop
+            ticTacToeBoard.playerXTurn = !ticTacToeBoard.playerXTurn; /* Since this boolean is important to determine the winner,
+            I've decided to toggle the player's turn at the start of the loop */
             ticTacToeBoard.textField.setText(ticTacToeBoard.playerXTurn ? "X turn" : "O turn");
             if (ticTacToeBoard.playerXTurn && playerXIsAI) {
                 aiMove(board, playerOIsAI);
@@ -62,8 +62,7 @@ public class Main {
             throw new RuntimeException(e);
         }
         int aiBestMove = (ticTacToeBoard.playerXTurn) ? MiniMaxAI.getXMove(board) : MiniMaxAI.getOMove(board);
-        char currentPlayer = (ticTacToeBoard.playerXTurn) ? 'X' : 'O';
-        board[aiBestMove] = currentPlayer;
+        board[aiBestMove] = (ticTacToeBoard.playerXTurn) ? 'X' : 'O';
         ticTacToeBoard.setChosenCell(aiBestMove);
         preventPlayerInteraction(otherPlayerIsAI, true);
     }
